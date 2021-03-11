@@ -14,65 +14,20 @@ import shutil
 import argparse
 import subprocess
 from tqdm import tqdm
-#from segmentAudio import silenceRemoval
-#from audioProcessing import extract_audio, convert_samplerate
-#from writeToFile import write_to_file
+from audioProcessing import extract_audio, convert_samplerate
 import segmentAudio
-#import writeToFile
 
 def convert_video(filepath):
 	base = ntpath.basename(filepath)
 	filename = os.path.splitext(base)[0]
 	new_name = filename + '.wav'
 	ff = FFmpeg(
-		executable = './ffmpeg-4.3.2-2021-02-27-full_build/ffmpeg-4.3.2-2021-02-27-full_build/bin/ffmpeg.exe',
+		executable = './ffmpeg/bin/ffmpeg.exe',
 		inputs={filepath: None},
 		outputs={new_name: None}
 		)
 	ff.run()
-	resample(new_name)
-
-def resample(fname):
-	required_num_samples = 839749
-	required_sample_rate = 16000
-	
-	rate, data = scipy.io.wavfile.read(fname)
-	print ('Rate = {}, samples = {}'.format(rate, len(data)))
-	if (rate == 16000):
-		to_deepspeech(fname)
-	
-	else:
-		if (rate == 8000):
-			resampling_factor = 2
-			samples = len(data) * resampling_factor
-			rate_new = rate * resampling_factor
-		else:
-			resampling_factor = 16000.0/float(rate)
-			samples = len(data)* resampling_factor
-			rate_new = rate * resampling_factor
-		
-		
-		print ('Resample (FFT) to rate = {}, and samples = {}...'.format(rate_new, samples))
-		_ = scipy.signal.resample(data, int(samples)).astype(np.int16)
-		
-		# append data to ndarray - add the last sample
-		n = len(_)
-		print ('Num of samples = {}'.format(n))
-		#assert n == samples, 'Num of samples is wrong'
-		print ('Adding sample(s)...')
-		value = _[-1]
-		__ = np.append(_, value)
-		n = len(__)
-		print ('Num of samples = {}'.format(n))
-		
-		# write wav file
-		#assert n == required_num_samples, 'Wrong number of samples'
-		filename = ntpath.basename(fname)
-		fname_new = 'new_' + filename 
-		scipy.io.wavfile.write(fname_new, int(rate_new), __)
-		print ('New file: {}'.format(fname_new))
-		print ('Finished.')
-		to_deepspeech(fname_new)
+	to_deepspeech(new_name)
 
 def sort_alphanumeric(data):
     """Sort function to sort os.listdir() alphanumerically
@@ -80,7 +35,6 @@ def sort_alphanumeric(data):
     Args:
         data : file name
     """
-    
     convert = lambda text: int(text) if text.isdigit() else text.lower()
     alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)] 
     
@@ -89,8 +43,13 @@ def sort_alphanumeric(data):
 def ds_process_audio(ds,filepath,file_handle):
 	w = wave.open(filepath, 'r')
 	frames = w.getnframes()
+	fs = w.getframerate()#sampling rate
 	buffer = w.readframes(frames)
-	data16 = np.frombuffer(buffer, dtype=np.int16)
+	desired_sample_rate = ds.sampleRate()
+	if fs == desired_sample_rate:
+		data16 = np.frombuffer(buffer, dtype=np.int16)
+	else:
+		data16 = convert_samplerate(filepath,desired_sample_rate)
 	w.close()
 	
 	text = ds.stt(data16)#use the deepspeech model to perform speech-to-text
@@ -126,28 +85,24 @@ def to_deepspeech(filepath):
 	file_handle.close()
 	
 	##clean directory and temp file
-	shutil.rmtree(audio_directory)
-	os.mkdir(audio_directory)
+	#shutil.rmtree(audio_directory)
+	#os.mkdir(audio_directory)
 	
 def main():
-	filepath = sys.argv[3]#path, get rid of 'File Path'
+    filepath = sys.argv[3]#path, get rid of 'File Path'
 	
-	name,extension = os.path.splitext(filepath)
-	
-	#video to audio file
-	if (extension == ".wav"):
-		print("Input is wave file")
-		#if wav file, detect downsample or upsample
-		fs = wave.open(filepath,'rb').getframerate()
-		if (fs != 16000):
-			resample(filepath)
-		else:
-			to_deepspeech(filepath)
-		
-	elif (extension == ".mp4"):
-		print("input is mp4 file")
-		#convert 
-		convert_video(filepath)
+    name,extension = os.path.splitext(filepath)
+
+    #video to audio file
+    if (extension == ".wav"):
+        print("Input is wave file")
+        #if wav file, detect downsample or upsample
+        #fs = wave.open(filepath,'rb').getframerate()
+        to_deepspeech(filepath)
+    elif (extension == ".mp4"):
+        print("input is mp4 file")
+        #convert 
+        convert_video(filepath)
 
 
 if __name__ == "__main__": 
