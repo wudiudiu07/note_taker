@@ -4,5 +4,6 @@
 (3) .pbmm & .scorer are in teams >> files
 (4) output txt will be in "output" folder
 (5)create an empty folder "temp" for audio segmentation
-(6) SoX install: https://sourceforge.net/projects/sox/
+(6)set PATH=%PATH%;{the path to your ffmpeg.exe} eg: set PATH=%PATH%;C:\Users\wuzis\Documents\ffmpeg\bin
+(7) SoX install: https://sourceforge.net/projects/sox/
     set PATH=%PATH%;C:\Program Files (x86)\sox-14-4-2
