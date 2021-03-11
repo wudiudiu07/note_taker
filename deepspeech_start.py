@@ -22,7 +22,7 @@ def convert_video(filepath):
     filename = os.path.splitext(base)[0]
     new_name = filename + '.wav'
     ff = FFmpeg(
-        executable = './ffmpeg/bin/ffmpeg.exe',
+        executable = './ffmpeg/bin/ffmpeg.exe', #ffmpeg-4.5.2-2021-02-27-full_build.......
         inputs={filepath: None},
         outputs={new_name: None}
         )
