@@ -3,6 +3,11 @@
 
 import subprocess
 import numpy as np
+import shlex
+try:
+    from shhlex import quote
+except ImportError:
+    from pipes import quote
 
 
 def extract_audio(input_file, audio_file_name):
