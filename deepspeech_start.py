@@ -35,6 +35,7 @@ def sort_alphanumeric(data):
     Args:
         data : file name
     """
+    
     convert = lambda text: int(text) if text.isdigit() else text.lower()
     alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)] 
     
@@ -108,4 +109,4 @@ def main():
 if __name__ == "__main__": 
  # if you call this script from the command line (the shell) it will
  # run the 'main' function
-    main()
+	main()
