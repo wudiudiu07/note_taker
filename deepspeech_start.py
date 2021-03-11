@@ -4,8 +4,10 @@ import wave
 import re
 import numpy as np
 import sys
+import pathlib
 import glob
 import os
+import pydub
 from ffmpy import FFmpeg
 import ntpath
 import scipy.io.wavfile
@@ -22,11 +24,22 @@ def convert_video(filepath):
     filename = os.path.splitext(base)[0]
     new_name = filename + '.wav'
     ff = FFmpeg(
-        executable = './ffmpeg/bin/ffmpeg.exe', #ffmpeg-4.5.2-2021-02-27-full_build.......
+        #executable = './ffmpeg/bin/ffmpeg.exe',
         inputs={filepath: None},
         outputs={new_name: None}
         )
     ff.run()
+    to_deepspeech(new_name)
+
+def convert_mp3(filepath):
+    base = ntpath.basename(filepath)
+    filename = os.path.splitext(base)[0]
+    #pydub.AudioSegment.Converter = os.getcwd() + "\ffmpeg\bin\ffmpeg.exe"
+    #pydub.AudioSegment.ffprobe = os.getcwd() + "\ffmpeg\bin\ffprobe.exe"
+    #ADD THE PATH OF FFMPEG first
+    audio = pydub.AudioSegment.from_mp3(filepath)
+    new_name = filename + '.wav'
+    audio.export(new_name,format="wav")
     to_deepspeech(new_name)
 
 def sort_alphanumeric(data):
@@ -103,6 +116,9 @@ def main():
         print("input is mp4 file")
         #convert 
         convert_video(filepath)
+    elif (extension == ".mp3"):
+        print("input is mp3 file")
+        convert_mp3(filepath)
 
 
 if __name__ == "__main__": 
