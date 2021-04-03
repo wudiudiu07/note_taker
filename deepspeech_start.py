@@ -169,7 +169,10 @@ def to_deepspeech(filepath):
     print("\nEverything is done!")
     
     ##clean directory and temp file
-    os.remove(os.path.join(base_directory,filename + ".wav"))
+    tmp_wav = os.path.join(base_directory,filename + ".wav")
+    if os.path.exists(tmp_wav):
+        os.remove(tmp_wav)
+        
     shutil.rmtree(audio_directory)
     os.mkdir(audio_directory)
     
