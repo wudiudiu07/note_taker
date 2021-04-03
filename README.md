@@ -1,6 +1,7 @@
 # note_taker
 (1) GUI: note_taker     
-(2)Need to pip install multiple lib
+(2)Need to pip install multiple lib(deepspeech,pydub,ffmpy,scipy,sklearn,truecase)
+   eg.pip3 install deepspeech
 (3) .pbmm & .scorer are in teams >> files
 (4) output txt will be in "output" folder
 (5)create an empty folder "temp" for audio segmentation
