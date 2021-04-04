@@ -1,0 +1,1 @@
+python "C:\Users\Adam Barta\Documents\Capstone\punctutator2_theano\punctuator2-master\play_with_model.py" "C:\Users\Adam Barta\Documents\Capstone\punctutator2_theano\models\INTERSPEECH-T-BRNN.pcl"
