@@ -1,0 +1,1 @@
+python "C:\Users\Adam Barta\Documents\Capstone\punctutator2_theano\punctuator2-master\data.py" "C:\Users\Adam Barta\Documents\Capstone\punctutator2_theano\Generate_Vocab"

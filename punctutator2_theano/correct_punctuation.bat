@@ -1,0 +1,1 @@
+python "C:\Users\Adam Barta\Documents\Capstone\punctutator2_theano\punctuator2-master\punctuator.py" "C:\Users\Adam Barta\Documents\Capstone\punctutator2_theano\models\INTERSPEECH-T-BRNN.pcl" "C:\Users\Adam Barta\Documents\Capstone\punctutator2_theano\punctuation_files\output_text.txt" "C:\Users\Adam Barta\Documents\Capstone\punctutator2_theano\punctuation_files\input_text.txt"
