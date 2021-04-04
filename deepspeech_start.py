@@ -126,7 +126,7 @@ def to_deepspeech(filepath):
     correct_output(punct_output,final_output)
     
     
-    print("\nfinished! output is",final_output,"\n") #final_output_txt
+    print("\nFinished! Output is",final_output,"\n") #final_output_txt
     print("Summarization starts...\n")
     
     
@@ -160,7 +160,7 @@ def to_deepspeech(filepath):
     Final = os.path.join(output_directory,filename+"_Final.txt")
     F = open(Final,"w")
     
-    print("Your Output will be shown below and saved in the output directory.\n")
+    print("Your output will be shown below and saved in the output directory.\n")
     for sentence in summarizer(parser.document, SENTENCES_COUNT):
         print(sentence)
         print(sentence, file=F)
@@ -176,13 +176,12 @@ def to_deepspeech(filepath):
     shutil.rmtree(audio_directory)
     os.mkdir(audio_directory)
     
-    
+   
+   
     #if os.path.exists(final_output):
         #os.remove(final_output)
     #else:
         #print("The file does not exist")
-        
-    #os.rename(tmp_f,os.path.join(output_directory,filename+".txt"))
     
 
  
@@ -198,11 +197,11 @@ def main():
         #fs = wave.open(filepath,'rb').getframerate()
         to_deepspeech(filepath)
     elif (extension == ".mp4"):
-        print("input is mp4 file")
+        print("Input is mp4 file")
         #convert 
         convert_video(filepath)
     elif (extension == ".mp3"):
-        print("input is mp3 file")
+        print("Input is mp3 file")
         convert_mp3(filepath)
 
 
