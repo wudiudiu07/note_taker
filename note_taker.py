@@ -10,7 +10,7 @@ if __name__ == "__main__":
  # run the 'main' function
 	P_window = tk.Tk()
 	P_window.geometry("500x250") 
-	P_window.title("Deepspeech")
+	P_window.title("Automated Note Taker")
 	P_window.config(background = "white")
 	label_file_name = tk.Label(P_window,text = "File path:     ", width = 100, height = 4, fg = "blue")
 	filename = label_file_name.cget("text")
